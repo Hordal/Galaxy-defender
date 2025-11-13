@@ -1,15 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="ko">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Galaxy Defender</title>
-
     <link rel="stylesheet" href="css/style.css">
-  </head>
+</head>
+<body>
+    <div id="langSelector">
+        <button id="lang-ko">한국어</button>
+        <button id="lang-en">English</button>
+    </div>
 
-  <body>
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    <div id="mainContent">
+        <div id="gameContainer">
+            <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+            <!-- In-Game UI -->
+            <div id="gameUI" class="hidden">
+                <div class="ui-section">
+                    <strong data-lang="score">Score:</strong> <span id="scoreDisplay">0</span>
+                </div>
+                <div class="ui-section">
+                    <strong data-lang="level">Level:</strong> <span id="levelDisplay">1</span>
+                </div>
+                <div class="ui-section">
+                    <strong data-lang="lives">Lives:</strong> <span id="livesDisplay">3</span>
+                </div>
+                <button id="pauseBtn">❚❚</button>
+            </div>
+
+            <!-- Screens -->
+            <div id="startScreen" class="screen">
+                <div class="screen-content">
+                    <h1>GALAXY DEFENDER</h1>
+                    <p><span data-lang="highScore">High Score</span>: <span id="highScoreDisplay">0</span></p>
+                    <div class="game-options">
+                        <div class="option-group">
+                            <label for="gameMode" data-lang="gameMode">Game Mode:</label>
+                            <select id="gameMode">
+                                <option value="normal" data-lang="modeNormal">Normal</option>
+                                <option value="infinite" data-lang="modeInfinite">Infinite</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="difficulty" data-lang="difficulty">Difficulty:</label>
+                            <select id="difficulty">
+                                <option value="easy" data-lang="difficultyEasy">Easy</option>
+                                <option value="normal" data-lang="difficultyNormal">Normal</option>
+                                <option value="hard" data-lang="difficultyHard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="startBtn" class="action-btn" data-lang="startGame">START GAME</button>
+                </div>
+            </div>
+
+            <div id="gameOverScreen" class="screen hidden">
+                <div class="screen-content">
+                    <h2 data-lang="gameOver">GAME OVER</h2>
+                    <p><span data-lang="yourScore">Your Score</span>: <span id="finalScoreDisplay">0</span></p>
+                    <button id="restartBtn" class="action-btn" data-lang="restart">RESTART</button>
+                </div>
+            </div>
+
+            <div id="pauseScreen" class="screen hidden">
+                <div class="screen-content">
+                    <h2 data-lang="paused">PAUSED</h2>
+                    <button id="resumeBtn" class="action-btn" data-lang="resume">RESUME</button>
+                </div>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div id="mobileControls" class="hidden">
+                <div id="touch-left" class="touch-control"><span>◀</span></div>
+                <div id="touch-right" class="touch-control"><span>▶</span></div>
+                <div id="touch-shoot" class="touch-control"><span data-lang="shoot">SHOOT</span></div>
+            </div>
+        </div>
+
+        <div id="guideContainer">
+            <h2 data-lang="howToPlay">How to Play</h2>
+            <div class="guide-section">
+                <h3><span class="guide-icon">🕹️</span> <span data-lang="controls">Controls</span></h3>
+                <ul>
+                    <li><strong data-lang="move">Move:</strong> <span data-lang="moveControls">Arrow Keys (◀ ▶) or A/D</span></li>
+                    <li><strong data-lang="shoot">Shoot:</strong> <span data-lang="shootControls">Spacebar</span></li>
+                    <li><strong data-lang="pause">Pause:</strong> <span data-lang="pauseControls">In-game "❚❚" button</span></li>
+                </ul>
+            </div>
+            <div class="guide-section">
+                <h3><span class="guide-icon">🎯</span> <span data-lang="goal">Goal</span></h3>
+                <p data-lang="goalDesc">Survive as long as you can and get the highest score! The game gets faster and more difficult as you level up.</p>
+            </div>
+            <div class="guide-section">
+                <h3><span class="guide-icon">👾</span> <span data-lang="enemies">Enemies</span></h3>
+                <ul class="enemy-list">
+                    <li><img src="images/ufo.png" alt="Normal UFO"> <strong data-lang="enemyNormal">Normal UFO:</strong> <span data-lang="enemyNormalDesc">Easy to destroy.</span></li>
+                    <li><img src="images/alien_enemy.png" alt="Strong Alien"> <strong data-lang="enemyStrong">Strong Alien:</strong> <span data-lang="enemyStrongDesc">Takes more hits.</span></li>
+                    <li><img src="images/alien_enemy.png" alt="Bomber"> <strong data-lang="enemyBomber">Bomber:</strong> <span data-lang="enemyBomberDesc">Moves sideways and drops bombs.</span></li>
+                    <li><strong data-lang="enemyBoss">Boss:</strong> <span data-lang="enemyBossDesc">Appears every 3 levels. Very tough!</span></li>
+                </ul>
+            </div>
+            <div class="guide-section">
+                <h3><span class="guide-icon">✨</span> <span data-lang="powerups">Power-ups</span></h3>
+                <ul class="powerup-list">
+                    <li><span class="powerup-icon">P</span> <strong data-lang="powerupTriple">Triple Shot:</strong> <span data-lang="powerupTripleDesc">Fire three bullets at once.</span></li>
+                    <li><span class="powerup-icon">S</span> <strong data-lang="powerupShield">Shield:</strong> <span data-lang="powerupShieldDesc">Protects you from one enemy hit.</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script src="js/space_shooter.js"></script>
-  </body>
+</body>
 </html>

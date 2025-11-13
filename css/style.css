@@ -1,6 +1,363 @@
+/* --- 기본 & 폰트 설정 --- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body {
+    background-color: #000010;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+/* --- 언어 선택 --- */
+#langSelector {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 100;
+}
+
+#langSelector button {
+    background: none;
+    border: 1px solid #0af;
+    color: #0af;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-right: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#langSelector button:hover, #langSelector button.active {
+    background: #0af;
+    color: #000;
+}
+
+/* --- 게임 컨테이너 & 캔버스 --- */
+#gameContainer {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    box-shadow: 0 0 30px rgba(0, 170, 255, 0.7);
+    border: 2px solid #0af;
+    border-radius: 8px;
+    background: #000; /* 캔버스 배경 */
+}
+
 canvas {
-    background: black;
-    display: block;
-    margin: 20px auto;
-    border: 2px solid white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+}
+
+/* --- 화면 (시작, 게임오버, 일시정지) --- */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 10, 20, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.screen-content h1 {
+    font-size: 2.5em;
+    color: #0af;
+    text-shadow: 0 0 15px #0af;
+    margin-bottom: 10px;
+}
+
+.screen-content h2 {
+    font-size: 2em;
+    color: #ff4500;
+    text-shadow: 0 0 15px #ff4500;
+    margin-bottom: 10px;
+}
+
+.screen-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    text-align: center; /* Added for centering */
+}
+
+/* --- 버튼 --- */
+.action-btn {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1em;
+    padding: 12px 25px;
+    border: 2px solid #0af;
+    background: transparent;
+    color: #0af;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.action-btn:hover {
+    background: #0af;
+    color: #000;
+    box-shadow: 0 0 20px #0af;
+}
+
+/* --- 인게임 UI --- */
+#gameUI {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+    color: #fff;
+    font-size: 0.9em;
+}
+
+#gameUI.hidden {
+    display: none;
+}
+
+.ui-section {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #0af;
+}
+
+#pauseBtn {
+    background: none;
+    border: 1px solid #0af;
+    color: #0af;
+    font-size: 1.2em;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#pauseBtn:hover {
+    background: #0af;
+    color: #000;
+}
+
+/* --- 모바일 컨트롤 --- */
+#mobileControls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    z-index: 6;
+    display: flex;
+}
+
+#mobileControls.hidden {
+    display: none;
+}
+
+.touch-control {
+    width: 33.33%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 170, 255, 0.5);
+    font-size: 2em;
+    user-select: none; /* 텍스트 선택 방지 */
+}
+
+#touch-shoot {
+    width: 34%;
+    font-size: 1.5em;
+}
+
+/* --- 메인 레이아웃 --- */
+#mainContent {
+    display: flex;
+    align-items: flex-start; /* 상단 정렬 */
+    gap: 30px; /* 컨테이너 사이 간격 */
+}
+
+/* --- 가이드 컨테이너 --- */
+#guideContainer {
+    width: 300px;
+    height: 600px;
+    background: rgba(0, 10, 20, 0.85);
+    border: 2px solid #0af;
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #e0e0e0;
+    overflow-y: auto; /* 내용이 길어지면 스크롤 */
+}
+
+#guideContainer h2 {
+    text-align: center;
+    color: #0af;
+    text-shadow: 0 0 10px #0af;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.guide-section {
+    margin-bottom: 20px;
+}
+
+.guide-section h3 {
+    font-size: 1.2em;
+    color: #fff;
+    border-bottom: 1px solid #0af;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.guide-icon {
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+#guideContainer ul {
+    list-style: none;
+    padding-left: 0; /* Removed padding-left */
+}
+
+#guideContainer li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+    margin-left: 10px; /* Added margin-left for indentation */
+}
+
+.enemy-list li, .powerup-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap; /* Added flex-wrap */
+}
+
+.enemy-list img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.powerup-icon {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-weight: bold;
+    color: #000;
+}
+
+.powerup-list li:nth-child(1) .powerup-icon { background-color: lime; } /* Triple Shot */
+.powerup-list li:nth-child(2) .powerup-icon { background-color: cyan; } /* Shield */
+
+
+/* --- 반응형 디자인 --- */
+@media (max-width: 768px) {
+    #mainContent {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    #guideContainer {
+        width: 90%;
+        max-width: 400px; /* 게임 컨테이너와 너비 맞춤 */
+        height: auto; /* 내용에 따라 높이 조절 */
+    }
+}
+
+@media (max-width: 420px) {
+    #gameContainer {
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        border-radius: 0;
+    }
+    #mobileControls {
+        display: flex; /* 모바일에서는 항상 표시 */
+    }
+    #guideContainer {
+        display: none; /* 가장 작은 화면에서는 가이드 숨김 */
+    }
+}
+
+/* Game Options */
+.game-options {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 80%; /* Adjust as needed */
+    max-width: 250px; /* Adjust as needed */
+    align-items: center; /* Added for centering option groups */
+}
+
+.option-group {
+    display: flex;
+    justify-content: center; /* Changed to center */
+    align-items: center;
+    gap: 10px; /* Added gap for spacing between label and select */
+    width: 100%; /* Ensure it takes full width to center content */
+}
+
+.game-options label {
+    font-size: 1em;
+    color: #e0e0e0;
+    /* margin-right: 10px; Removed as gap handles spacing */
+}
+
+.game-options select {
+    background-color: #000010;
+    border: 1px solid #0af;
+    color: #0af;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9em;
+    cursor: pointer;
+    appearance: none; /* Remove default select styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 120px; /* Adjust as needed */
+    text-align: center;
+}
+
+.game-options select:focus {
+    outline: none;
+    border-color: #0ff;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
 }
