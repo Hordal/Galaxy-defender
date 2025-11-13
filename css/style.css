@@ -25,12 +25,15 @@ body {
     background: none;
     border: 1px solid #0af;
     color: #0af;
-    padding: 5px 10px;
+    padding: 5px 0; /* Adjust padding */
     cursor: pointer;
     font-size: 1.2em;
     margin-right: 5px;
     border-radius: 5px;
     transition: all 0.3s ease;
+    width: 110px; /* Increase width slightly */
+    text-align: center;
+    box-sizing: border-box; /* Add box-sizing */
 }
 
 #langSelector button:hover, #langSelector button.active {
@@ -200,7 +203,7 @@ canvas {
 /* --- 메인 레이아웃 --- */
 #mainContent {
     display: flex;
-    align-items: flex-start; /* 상단 정렬 */
+    align-items: center; /* 중앙 정렬 */
     gap: 30px; /* 컨테이너 사이 간격 */
 }
 
@@ -324,6 +327,8 @@ canvas {
     width: 80%; /* Adjust as needed */
     max-width: 250px; /* Adjust as needed */
     align-items: center; /* Added for centering option groups */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .option-group {
@@ -337,7 +342,8 @@ canvas {
 .game-options label {
     font-size: 1em;
     color: #e0e0e0;
-    /* margin-right: 10px; Removed as gap handles spacing */
+    width: 110px; /* 고정 너비 */
+    text-align: right; /* 텍스트 오른쪽 정렬 */
 }
 
 .game-options select {

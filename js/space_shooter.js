@@ -15,6 +15,7 @@ const finalScoreDisplay = document.getElementById('finalScoreDisplay');
 // Game Options
 const gameModeSelect = document.getElementById('gameMode');
 const difficultySelect = document.getElementById('difficulty');
+const languageSelect = document.getElementById('language');
 
 // Screens
 const startScreen = document.getElementById('startScreen');
@@ -26,8 +27,6 @@ const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
 const pauseBtn = document.getElementById('pauseBtn');
 const resumeBtn = document.getElementById('resumeBtn');
-const langKoBtn = document.getElementById('lang-ko');
-const langEnBtn = document.getElementById('lang-en');
 
 // Mobile Controls
 const mobileControls = document.getElementById('mobileControls');
@@ -137,10 +136,6 @@ function setLanguage(lang) {
             el.textContent = translations[lang][key];
         }
     });
-
-    // Update active button style
-    langKoBtn.classList.toggle('active', lang === 'ko');
-    langEnBtn.classList.toggle('active', lang === 'en');
     
     // Save preference
     localStorage.setItem('galaxyDefenderLanguage', lang);
@@ -266,8 +261,7 @@ startBtn.addEventListener('click', () => { initGame(); startBtn.blur(); });
 restartBtn.addEventListener('click', () => { initGame(); restartBtn.blur(); });
 pauseBtn.addEventListener('click', togglePause);
 resumeBtn.addEventListener('click', togglePause);
-langKoBtn.addEventListener('click', () => setLanguage('ko'));
-langEnBtn.addEventListener('click', () => setLanguage('en'));
+languageSelect.addEventListener('change', (e) => setLanguage(e.target.value));
 
 
 // --- 모바일 컨트롤 설정 ---
@@ -295,6 +289,7 @@ function setupMobileControls() {
 function init() {
     const savedLang = localStorage.getItem('galaxyDefenderLanguage') || 'en';
     setLanguage(savedLang);
+    languageSelect.value = savedLang;
     
     loadHighScore();
     setupMobileControls();
@@ -500,8 +495,15 @@ function update() {
 function updatePlayer() {
     if ((keys["ArrowLeft"] || keys["a"]) && player.x > 0) player.x -= player.speed;
     if ((keys["ArrowRight"] || keys["d"]) && player.x + player.width < canvas.width) player.x += player.speed;
-    if (keys[" "] && !keys.fired) { shoot(); keys.fired = true; }
-    if (!keys[" "]) { keys.fired = false; }
+    
+    // Shoot with cooldown
+    if (keys[" "]) {
+        const now = Date.now();
+        if (now - lastShotTime > 500) { // 500ms = 0.5 seconds
+            shoot();
+            lastShotTime = now;
+        }
+    }
 
     if (player.powerUpTime > 0) { player.powerUpTime--; if (player.powerUpTime === 0) player.powerUp = null; }
     if (player.shieldTime > 0) { player.shieldTime--; if (player.shieldTime === 0) player.shield = false; }
